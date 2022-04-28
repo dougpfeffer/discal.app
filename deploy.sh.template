@@ -1,0 +1,3 @@
+#!/bin/bash
+zip -r function.zip .
+aws --profile <YOUR PROFILE> --region <YOUR REGION> lambda update-function-code --function-name <LAMBDA FUNCTION NAME> --zip-file fileb://function.zip;

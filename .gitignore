@@ -1,0 +1,5 @@
+node_modules/
+function.zip
+.DS_Store
+.env
+deploy.sh
