@@ -41,4 +41,3 @@ The calendar files are written to directories named after their Guild IDs, like 
 `/guilds/<guild id>/users/<user id>/events.ics`
 
 A template of a simple deploy Bash script is available. Rename it from `deploy.sh.template` to `deploy.sh`, make it executable (`chmod +x`) and swap in real values.
-
