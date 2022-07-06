@@ -3,20 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "mocha"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1168.0",
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
     "ical-generator": "^3.4.1",
-    "moment": "^2.29.3",
-    "sinon": "^14.0.0",
-    "storage-abstraction": "^1.1.10"
-  },
-  "devDependencies": {
-    "mocha": "^10.0.0"
+    "moment": "^2.29.3"
   }
 }
