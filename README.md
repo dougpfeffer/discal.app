@@ -34,5 +34,11 @@ Most likely this will be scheduled to run periodically, which can be done with A
 
 Only one Guild is processed at a time. The theory is we'll loop over them all forever, keepign them all in sync. We process them in the order of how 'old' each process attempt is.
 
+The calendar files are written to directories named after their Guild IDs, like so:
+
+`/guilds/<guild id>/events.ics`
+
+`/guilds/<guild id>/users/<user id>/events.ics`
+
 A template of a simple deploy Bash script is available. Rename it from `deploy.sh.template` to `deploy.sh`, make it executable (`chmod +x`) and swap in real values.
 
