@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>DISCAL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: helvetica;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      height:  100%;
+      padding-left: 24px;
+      padding-right: 24px;
+      margin: 0;      
+    }
+    code {
+      background:  rgba(175,184,193,0.2);
+      padding: .2em .4em;
+      margin: 0;
+      border-radius: 6px;
+    }
+    p {
+      max-width: 600px;
+      margin:  24px auto 0 auto;
+      line-height: 1.5;
+      text-align: left;
+      width: 100%;
+    }
+    p:first-child {
+      margin-top: 0;
+    }
+    a {
+      color:  black;
+    }
+    .title {
+      padding-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+  <p class="title"><strong><a href="https://github.com/dougpfeffer/discal.app">DISCAL</a></strong>: A Discord Events calendar generator.</p>
+  <p>If you are a member of a Discord with this app installed, you have two options for subscribing to the event feed:</p>
+  <p>1. Subscribe to the full list of events:</p>
+  <p><code>https://discal.app/guilds/&lt;GUILD ID&gt;/events.ics</code></p>
+  <p>2. Subscibe to the list of events you're "interested" in:</p>
+  <p><code>https://discal.app/guilds/&lt;GUILD ID&gt;/&lt;YOUR DISCORD ID&gt;/events.ics</code></p>
+  <p><strong>Be sure to <u>subscribe</u> to these URLs in your Calendar app.</strong></p>
+  <p>It should have a "New Calendar Subscription" option of some kind. Don't just download the file and double click it, that won't subscribe you to future changes.</p>
+</body>
+</html>
