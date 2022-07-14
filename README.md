@@ -14,6 +14,7 @@ An .env files containing the following:
 - A Discord Bot Client Token (`CLIENT_TOKEN`)
 - The S3 bucket that will store the .ICS files (`S3_BUCKET_NAME`)
 - AWS creds for a user that can read/write to that bucket. (`AWS_ACCESS_KEY` and `AWS_ACCESS_SECRET`)
+- Sentry (http://sentry.io) config (`SENTRY_URL`). This is required for the Lambda handler, but not used anywhere else.
 
 
 A `manifest.json` file (in the root of the S3 bucket) that lists Guilds we're working with. It should look like so:
