@@ -1,4 +1,3 @@
-
 const ical              = require("ical-generator");
 const moment            = require("moment");
 const path              = require('path');
@@ -57,7 +56,8 @@ class Guild {
 
   // Writes out (to S3) the global calendar for this guild AND all the individual user calendar files.
   async generateCalendarFiles(){
-    let attendeesToEvents = {}
+    let attendeesToEvents   = {}
+    let attendeeIdsToNames  = {}
 
     const globalCalendar = ical({
       name: `${this.name} Cal`
@@ -70,6 +70,8 @@ class Guild {
 
       // Build out a structure of each user and all their events.
       event.users.forEach( (att) => {
+        // Also build a list of IDs to names, for display purposes:
+        attendeeIdsToNames[att.user.id] = att.user.username
         if(attendeesToEvents[att.user.id]){
           attendeesToEvents[att.user.id].push(event)
         } else {
@@ -81,8 +83,12 @@ class Guild {
     await this.fileAccessor.saveFile(`guilds/${this.id}/events.ics`, globalCalendar.toString())
 
     for (const attendee in attendeesToEvents) {
+
+      // Pull out your username for display in the personalized ICS files:
+      const username = attendeeIdsToNames[attendee]
+
       const userCalendar = ical({
-        name: `@${attendee} ${this.name} Cal`
+        name: `@${username} ${this.name} Cal`
       }).ttl(60 * 30);
       attendeesToEvents[attendee].forEach( (ev) => {
         this.addEventToCalendar(userCalendar, ev)
@@ -91,7 +97,6 @@ class Guild {
       await this.fileAccessor.saveFile(`guilds/${this.id}/users/${attendee}/events.ics`, userCalendar.toString())
     }    
   }
-
 
   // Given a Calendar object and a Discord event, apply the given event to the Calendar.
   // This adjusts the Calendar object in-place, no need to deal with the return value.
