@@ -16,7 +16,8 @@ An .env files containing the following:
 - AWS creds for a user that can read/write to that bucket. (`AWS_ACCESS_KEY` and `AWS_ACCESS_SECRET`)
 - Sentry (https://sentry.io) config (`SENTRY_URL`). This is required for the Lambda handler, but not used anywhere else.
 - Cronitor (https://cronitor.io) API Key (`CRONITOR_API_KEY`). This is required for the Lambda handler, but not used anywhere else.
-- Cronitor monitor id (`CRONITOR_MONITOR_ID`)
+- Cronitor monitor ID (`CRONITOR_MONITOR_ID`)
+- "Secret" for authentication (`DISCAL_AUTH_SECRET`). More on authentication below.
 
 A `manifest.json` file (in the root of the S3 bucket) that lists Guilds we're working with. It should look like so:
 
@@ -43,3 +44,11 @@ The calendar files are written to directories named after their Guild IDs, like 
 `/guilds/<guild id>/users/<user id>/events.ics`
 
 A template of a simple deploy Bash script is available. Rename it from `deploy.sh.template` to `deploy.sh`, make it executable (`chmod +x`) and swap in real values.
+
+## Authentication
+
+We provide a light authentication layer to keep away total randoms from guessing calendar feed URLS. 
+
+This is faciliated by a CloudFront Function, which checks for a `?key` parameter in any request. See the code in `/auth` for details.
+
+`generateApiKeyForGuild.js` is a utility for generating the key, which you should share with the person responsible for any given Discord we're integrating with.
