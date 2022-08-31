@@ -18,6 +18,7 @@ An .env files containing the following:
 - Cronitor (https://cronitor.io) API Key (`CRONITOR_API_KEY`). This is required for the Lambda handler, but not used anywhere else.
 - Cronitor monitor ID (`CRONITOR_MONITOR_ID`)
 - "Secret" for authentication (`DISCAL_AUTH_SECRET`). More on authentication below.
+- Discord Bot Public Key (`DISCORD_CLIENT_PUBLIC_KEY`) for use with the slash command (`/discal`)
 
 A `manifest.json` file (in the root of the S3 bucket) that lists Guilds we're working with. It should look like so:
 
@@ -39,9 +40,9 @@ Only one Guild is processed at a time. The theory is we'll loop over them all fo
 
 The calendar files are written to directories named after their Guild IDs, like so:
 
-`/guilds/<guild id>/events.ics`
+`/guilds/<guild id>/events.ics?key=xxx`
 
-`/guilds/<guild id>/users/<user id>/events.ics`
+`/guilds/<guild id>/users/<user id>/events.ics?key=xxx`
 
 A template of a simple deploy Bash script is available. Rename it from `deploy.sh.template` to `deploy.sh`, make it executable (`chmod +x`) and swap in real values.
 
@@ -52,3 +53,37 @@ We provide a light authentication layer to keep away total randoms from guessing
 This is faciliated by a CloudFront Function, which checks for a `?key` parameter in any request. See the code in `/auth` for details.
 
 `generateApiKeyForGuild.js` is a utility for generating the key, which you should share with the person responsible for any given Discord we're integrating with.
+
+
+# Discord Slash Command
+
+We support the `/discal` command to assist generating guild/user specific .ics URLs, which is especially handy given the key auth system.
+
+The integration itself isn't that complicated but registering and configuring the Discord bot took some trial and error.
+
+First you need to create a Discord bot.
+
+Then you need to register the global slash command. I used this Python code:
+
+
+```
+import requests
+
+url = "https://discord.com/api/v10/applications/<THE BOT ID>/commands"
+
+json = {
+    "name": "discal",
+    "type": 1,
+    "description": "View your calendar feed details.",
+}
+
+headers = {
+    "Authorization": "Bot <THE BOT TOKEN>"
+}
+
+requests.post(url, headers=headers, json=json)
+```
+
+Once you've jumped through the appropriate hoops, you can setup an API endpoint that confirms some functionality (proving we adhere to Discord's policies) and will offer the functionality we desire.
+
+That Lambda code is in the `slashCommandApp` directory. It assumes an AWS API Gateway has been setup correctly for the necessary Discord headers and JSON to be passed through.
